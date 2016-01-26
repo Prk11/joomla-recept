@@ -2,13 +2,8 @@
 defined('_JEXEC') or die('Restricted access');
 JTable::addIncludePath(JPATH_COMPONENT.'/tables');
 
-$app = JFactory::getApplication();
-$input = $app->input;
-$controller = $input->get('controller','default');
-require_once (JPATH_COMPONENT.'/controllers/'.$controller.'.php');
-$classname = 'ReceptController'.ucfirst($controller);
-$controller = new $classname();
-$input->set('view', "default");
-$controller->execute($input->getCmd('task'));
-        
+$input = JFactory::getApplication()->input;
+$controller = JControllerLegacy::getInstance('Recept');
+$input->set('view', $input->get('view',"Ingredients"));
+$controller->execute($input->get('task'));       
 $controller->redirect();

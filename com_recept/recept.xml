@@ -2,7 +2,7 @@
 <extension type="component" version="3.0" method="upgrade">
 	<name>com_recept</name>
 	<author>Prk</author>
-	<creationDate>October 2016</creationDate>
+	<creationDate>January 2016</creationDate>
 	<copyright>(C) 2015 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>prodan.konstantin@gmail.com</authorEmail>
@@ -35,19 +35,17 @@
 	</languages>
 	<administration>
             <menu link="index.php?option=com_recept" view="default">COM_RECEPT_MENU</menu>
-            <submenu>
-                <menu view="ilist">COM_RECEPT_MENU_INGREDIENTLIST</menu>
-                <menu view="iset">COM_RECEPT_MENU_INGREDIENTSET</menu>
-            </submenu>
             <files folder="admin">
                 <filename>index.html</filename>
                 <filename>recept.php</filename>
+                <filename>controller.php</filename>
                 <filename>install.mysql.sql</filename>
                 <filename>uninstall.mysql.sql</filename>
                 <folder>controllers</folder>
                 <folder>language</folder>
                 <folder>models</folder>
                 <folder>views</folder>
+                <folder>tables</folder>
             </files>
             <languages folder="admin">
                     <language tag="ru-RU">language/ru-RU/ru-RU.com_recept.ini</language>

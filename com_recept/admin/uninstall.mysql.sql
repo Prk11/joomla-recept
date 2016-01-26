@@ -1,3 +1,3 @@
-DROP TABLE IF EXISTS `#__recept_ingredients`;
+DROP TABLE IF EXISTS `#__ingredients_article`;
 
-DROP TABLE IF EXISTS `#__recept_ingredient_list`;
+DROP TABLE IF EXISTS `#__ingredients_list`;
