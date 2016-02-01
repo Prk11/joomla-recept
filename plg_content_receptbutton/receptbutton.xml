@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="k2" method="upgrade">
+    <name>PLG_RECEPTBUTTON_XML_DESCRIPTION</name>
+    <version>1.0.0</version>
+    <creationDate>Jan 2016</creationDate>
+    <author>Prk</author>
+    <authorEmail>prodan.konstantin@gmail.com</authorEmail>
+    <authorUrl>www.joomla.org</authorUrl>
+    <copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <description>PLG_RECEPTBUTTON_XML_DESCRIPTION</description>
+    <files folder="site">
+        <filename plugin="receptbutton">receptbutton.php</filename>
+                
+        <filename>index.html</filename>
+    </files>
+    <languages folder="site">
+        <language tag="ru-RU">language/ru-RU/ru-RU.plg_k2_receptbutton.ini</language>
+        <language tag="ru-RU">language/ru-RU/ru-RU.plg_k2_receptbutton.sys.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.plg_k2_receptbutton.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.plg_k2_receptbutton.sys.ini</language>
+    </languages>
+    
+    <administration>
+        <languages folder="site">
+            <language tag="ru-RU">language/ru-RU/ru-RU.plg_k2_receptbutton.ini</language>
+            <language tag="ru-RU">language/ru-RU/ru-RU.plg_k2_receptbutton.sys.ini</language>
+            <language tag="en-GB">language/en-GB/en-GB.plg_k2_receptbutton.ini</language>
+            <language tag="en-GB">language/en-GB/en-GB.plg_k2_receptbutton.sys.ini</language>
+        </languages>        
+    </administration>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field name="visible_ingredients"
+                       type="radio"
+                       class="btn-group btn-group-yesno"
+                       default="1"
+                       description="PLG_RECEPTBUTTON_FIELD_VISIBLE_INGREDIENTS_DESC"
+                       label="PLG_RECEPTBUTTON_FIELD_VISIBLE_INGREDIENTS_LABEL">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field name="label_ingredients"
+                       type="text"
+                       default="Состав: "
+                       description="PLG_RECEPTBUTTON_FIELD_LABEL_INGREDIENTS_DESC"
+                       label="PLG_RECEPTBUTTON_FIELD_LABEL_INGREDIENTS_LABEL">
+                </field>
+                <field name="label_style_ingredients"
+                       type="text"
+                       default="font: bold small;"
+                       description="PLG_RECEPTBUTTON_FIELD_LABEL_STYLE_INGREDIENTS_DESC"
+                       label="PLG_RECEPTBUTTON_FIELD_LABEL_STYLE_INGREDIENTS_LABEL">
+                </field>
+                <field name="list_style_ingredients"
+                       type="text"
+                       default="font: italic xx-small;"
+                       description="PLG_RECEPTBUTTON_FIELD_LIST_STYLE_INGREDIENTS_DESC"
+                       label="PLG_RECEPTBUTTON_FIELD_LIST_STYLE_INGREDIENTS_LABEL">
+                </field>
+            </fieldset>
+        </fields>
+    </config>
+
+    
+    <fields group="item-other">
+            <field name="receptbutton"
+                   type="repeatable"
+                   icon="list"
+                   description="PLG_RECEPTBUTTON_LIST_INGREDIENTS_DESC"
+                   label="PLG_RECEPTBUTTON_LIST_INGREDIENTS_LABEL"
+                   default="{'unit':[5,10],'count':[1,6]}">
+                <fieldset name="receptbutton_modal" repeat="true" hidden="true">
+                    <field name="unit"
+                           label="PLG_RECEPTBUTTON_UNIT_INGREDIENT_LABEL"
+                           type="sql"
+                           query="SELECT id as value, concat(name , '(', `unit` , ')') as title FROM #__ingredients_list where `published`=1 order by title" 
+                           key_field="value" 
+                           value_field="title"
+                    />
+                    <field name="count"
+                           label="PLG_RECEPTBUTTON_COUNT_INGREDIENT_LABEL"
+                           min="0"
+                           step="0.100"
+                           type="Number" 
+                    />
+                </fieldset>
+            </field>
+    </fields>
+
+</extension>
