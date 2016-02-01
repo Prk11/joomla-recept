@@ -77,11 +77,20 @@ class ReceptModelIngredients extends JModelList {
         try {
             $query->transactionStart();
             foreach ($ids as $_id) {
-                if ($id==$_id || is_null($_id)) continue;
+                if (is_null($_id) || $id==$_id) continue;                
                 $query->setQuery("UPDATE `#__ingredients_article` SET `ingredient_id`=".(int)$id." WHERE `ingredient_id`=".(int)$_id);
                 $query->execute();
                 $query->setQuery("DELETE FROM `#__ingredients_list` WHERE `id`=".(int)$_id);
-                $query->execute();
+                $query->execute();                
+            }
+            // Если появились двойники то удаляем всех кроме самого первого
+            $query->setQuery("SELECT count(id), `article_id`, min(`id`) FROM `#__ingredients_article` WHERE `ingredient_id`=".(int)$id." GROUP BY `article_id`");
+            $rows=$query->loadRowList();
+            foreach ($rows as $row) {
+                if ($row[0]>1) {
+                    $query->setQuery("DELETE FROM `#__ingredients_article` WHERE (`ingredient_id`=".(int)$id.") and (`article_id`=".(int)$row[1].") and (`id`<>".(int)$row[2].")");
+                    $query->execute();
+                }  
             }
             $query->transactionCommit();
             return true;
