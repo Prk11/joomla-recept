@@ -38,7 +38,7 @@
                 $sql ="select distinct ingredient.`id` ingredient_id, k2item.`id` k2item_id
                 from 
                     #__ingredients_list ingredient inner join 
-                    #__k2_items k2item on (k2item.introtext like CONCAT('%' , ingredient.`name` , '%')) 
+                    #__k2_items k2item on (k2item.introtext like CONCAT('%' , LEFT(ingredient.`name`,LENGTH(ingredient.`name`)-1) , '%')) 
                 where ingredient.id not in
                     (select article.`ingredient_id` 
                     from #__ingredients_article article 

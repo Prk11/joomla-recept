@@ -8,7 +8,8 @@ defined('_JEXEC') or die('Restricted access');
  */
 class ReceptViewIngredients extends JViewLegacy
 {
-	/**
+    public $msg;
+    /**
 	 * Display the Hello World view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -18,11 +19,13 @@ class ReceptViewIngredients extends JViewLegacy
 	function display($tpl = null)
 	{
             $this->state = $this->get('State');
+            $this->msg = $this->state->get('message');
             $this->pagination = $this->get('Pagination');
             
             JToolBarHelper::title(JText::_('COM_RECEPT_COMPONENT_TITLE'));
             JToolbarHelper::addNew(); 
-            JToolbarHelper::custom('edit','edit','edit_unpublished','COM_RECEPT_EDIT');
+            JToolbarHelper::editList('ingredient.edit');
+            JToolbarHelper::custom('join','','','COM_RECEPT_JOIN');
             JToolbarHelper::trash();
             $model = &$this->getModel();
             $modelData = $model->getItems();

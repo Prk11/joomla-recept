@@ -25,7 +25,7 @@ class ReceptViewIngredient extends JViewLegacy
     {
         $this->form  = $this->get('Form');
 	$this->item  = $this->get('Item');
-//        $this->state = $this->get('State');
+        $this->state = $this->get('State');
         $this->form->bind($this->item);
 
         JToolBarHelper::title(JText::_('COM_RECEPT_COMPONENT_TITLE'));
