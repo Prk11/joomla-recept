@@ -19,7 +19,6 @@ class ReceptViewIngredients extends JViewLegacy
 	function display($tpl = null)
 	{
             $this->state = $this->get('State');
-            $this->msg = $this->state->get('message');
             $this->pagination = $this->get('Pagination');
             
             JToolBarHelper::title(JText::_('COM_RECEPT_COMPONENT_TITLE'));

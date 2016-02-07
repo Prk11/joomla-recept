@@ -17,12 +17,35 @@ CREATE TABLE IF NOT EXISTS `#__ingredients_article` (
   KEY `idx_ingredient_id` (`ingredient_id`)
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `#__ingredients_basket` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) NOT NULL,
+  `article_id` int(10) NOT NULL,
+  `count` DECIMAL(3,1) NOT NULL DEFAULT 1,
+  `datestart` DATETIME DEFAULT now(),
+  `datefinish` DATETIME DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_article_id` (`article_id`),
+  KEY `idx_user_id` (`user_id`)
+ ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 ALTER TABLE `#__ingredients_article`
---   ADD CONSTRAINT `fk_ingredients_article_article_id` 
---     FOREIGN KEY (`article_id`) 
---     REFERENCES `#__k2_items` (`id`)
---     ON DELETE CASCADE,
+--    ADD CONSTRAINT `fk_ingredients_article_article_id` 
+--      FOREIGN KEY (`article_id`) 
+--      REFERENCES `#__k2_items` (`id`)
+--      ON DELETE CASCADE,
   ADD CONSTRAINT `fk_ingredients_article_ingredient_id` 
     FOREIGN KEY (`ingredient_id`) 
     REFERENCES `#__ingredients_list` (`id`)
-    ON DELETE CASCADE
+    ON DELETE CASCADE;
+
+-- ALTER TABLE `#__ingredients_basket`
+--    ADD CONSTRAINT `fk_ingredients_basket_article_id` 
+--      FOREIGN KEY (`article_id`) 
+--      REFERENCES `#__k2_items` (`id`)
+--      ON DELETE CASCADE,
+--   ADD CONSTRAINT `fk_ingredients_basket_user_id` 
+--     FOREIGN KEY (`user_id`) 
+--     REFERENCES `#__users` (`id`)
+--     ON DELETE CASCADE;
+

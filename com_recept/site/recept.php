@@ -1,8 +1,9 @@
 <?php
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
+defined('_JEXEC') or die('Restricted access');
+JTable::addIncludePath(JPATH_COMPONENT.'/tables');
+$input = JFactory::getApplication()->input;
+$controller = JControllerLegacy::getInstance('Recept');
+$input->set('view', $input->get('view',"Basket"));
+$controller->execute($input->get('task'));       
+$controller->redirect();

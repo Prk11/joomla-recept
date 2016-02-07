@@ -25,10 +25,13 @@
 	<files folder="site">
             <filename>index.html</filename>
             <filename>recept.php</filename>
+            <filename>controller.php</filename>
             <folder>controllers</folder>
             <folder>language</folder>
             <folder>models</folder>
             <folder>views</folder>
+            <folder>tables</folder>
+            <folder>helper</folder>
 	</files>
 	<languages folder="site">
 		<language tag="ru-RU">language/ru-RU/ru-RU.com_recept.ini</language>
