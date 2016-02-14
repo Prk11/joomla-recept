@@ -41,6 +41,18 @@
                     <option value="1">JYES</option>
                     <option value="0">JNO</option>
                 </field>
+                <field name="label_ingredients_div"
+                       type="text"
+                       default="display: inline; margin-top: 10px;"
+                       description="PLG_RECEPTBUTTON_FIELD_LABEL_INGREDIENTS_DIV_DESC"
+                       label="PLG_RECEPTBUTTON_FIELD_LABEL_INGREDIENTS_DIV_LABEL">
+                </field>
+                <field name="label_ingredients_css"
+                       type="textarea"
+                       default=" .recept > ul > li:before {width: 0px !important; height: 0px !important; background: #FFF !important; } "
+                       description="PLG_RECEPTBUTTON_FIELD_LABEL_INGREDIENTS_CSS_DESC"
+                       label="PLG_RECEPTBUTTON_FIELD_LABEL_INGREDIENTS_CSS_LABEL">
+                </field>
                 <field name="label_ingredients"
                        type="text"
                        default="Состав: "
@@ -49,15 +61,27 @@
                 </field>
                 <field name="label_style_ingredients"
                        type="text"
-                       default="font: bold small;"
+                       default="display: inline;"
                        description="PLG_RECEPTBUTTON_FIELD_LABEL_STYLE_INGREDIENTS_DESC"
                        label="PLG_RECEPTBUTTON_FIELD_LABEL_STYLE_INGREDIENTS_LABEL">
                 </field>
                 <field name="list_style_ingredients"
                        type="text"
-                       default="font: italic xx-small;"
+                       default="display: inline;"
                        description="PLG_RECEPTBUTTON_FIELD_LIST_STYLE_INGREDIENTS_DESC"
                        label="PLG_RECEPTBUTTON_FIELD_LIST_STYLE_INGREDIENTS_LABEL">
+                </field>
+                <field name="list_style_ingredients_li"
+                       type="text"
+                       default="display: inline; padding-left: 5px;"
+                       description="PLG_RECEPTBUTTON_FIELD_LIST_STYLE_INGREDIENTS_LI_DESC"
+                       label="PLG_RECEPTBUTTON_FIELD_LIST_STYLE_INGREDIENTS_LI_LABEL">
+                </field>
+                <field name="list_ingredients_li_separator"
+                       type="text"
+                       default="; "
+                       description="PLG_RECEPTBUTTON_FIELD_LIST_INGREDIENTS_LI_SEPARATOR_DESC"
+                       label="PLG_RECEPTBUTTON_FIELD_LIST_INGREDIENTS_LI_SEPARATOR_LABEL">
                 </field>
                 <field name="list_category"
                        type="sql"

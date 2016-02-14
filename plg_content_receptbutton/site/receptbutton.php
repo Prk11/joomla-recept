@@ -40,10 +40,14 @@ class plgK2Receptbutton extends K2Plugin {
         $txt = "";
         $visible_ingredients = $this->params->get('visible_ingredients', 1);
         if ($visible_ingredients) {
+            $label_ingredients_css = $this->params->get('label_ingredients_css');
+            JFactory::getDocument()->addStyleDeclaration($label_ingredients_css);
+            $label_ingredients_div = $this->params->get('label_ingredients_div');
             $label_ingredients = $this->params->get('label_ingredients');
             $label_style_ingredients = $this->params->get('label_style_ingredients');
             $list_style_ingredients = $this->params->get('list_style_ingredients');
-            $txt.="<br /><span style='$label_style_ingredients'>$label_ingredients</span> ";
+            $list_style_ingredients_li = $this->params->get('list_style_ingredients_li');
+            $txt.="<div class=\"recept\" style='$label_ingredients_div'><span style='$label_style_ingredients'>$label_ingredients</span> ";
             $sql.="select l.`name`, a.`ingredient_count`, l.`unit` ";
             $sql.="from `#__ingredients_article` as a inner join `#__ingredients_list` as l ";
             $sql.="on (a.`ingredient_id`=l.`id`) where (a.`published`='1') and ";
@@ -52,15 +56,20 @@ class plgK2Receptbutton extends K2Plugin {
             $query = &$query;
             $query->setQuery($sql);
             $rows = $query->loadRowList();
-            $txt.="<span style='$list_style_ingredients'>";
-            foreach ($rows as $row) {
+            $list_ingredients_li_separator = $this->params->get('list_ingredients_li_separator');
+            $txt.="<ul style='$list_style_ingredients'>";
+            $cnt = count($rows);
+            foreach ($rows as $i=>$row) {
+                if ($cnt-1==$i) {
+                    $list_ingredients_li_separator="";
+                }
                 if ((float) $row[1] == 0.0) {
-                    $txt.=$row[0] . "; ";
+                    $txt.="<li style=\"$list_style_ingredients_li\">".$row[0] . $list_ingredients_li_separator. "</li>";
                 } else {
-                    $txt.=$row[0] . ": " . (float) $row[1] . " " . $row[2] . "; ";
+                    $txt.="<li style=\"$list_style_ingredients_li\">".$row[0] . ": " . (float) $row[1] . " " . $row[2] . $list_ingredients_li_separator. "</li>";
                 }
             }
-            $txt.="</span>";
+            $txt.="</ul></div>";
         }
         return $txt;
     }
@@ -73,7 +82,7 @@ class plgK2Receptbutton extends K2Plugin {
         $user = JFactory::getUser();
         if (!$user->guest) {
             $uri = JFactory::getURI()->toString() . "#btngroup" . $item->id;
-            $txt = '<div class="btn-group">';
+            $txt = '<div class="btn-group itemAuthorContent">';
             $txt.='<a class="btn btn-success button" href="' . JRoute::_("index.php?option=com_recept&task=add&id=" . (int) $item->id . "&return=" . base64_encode($uri)) . '"><span class="icon-plus"></span>' . JText::_('PLG_RECEPTBUTTON_PLUGIN_BASKET_ADD') . '</a>';
             $model = new ReceptModelBasket();
             if ($model->isPositive($item->id)) {
