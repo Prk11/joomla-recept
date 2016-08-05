@@ -61,4 +61,8 @@
         function uninstall($parent) {
             echo JText::_('COM_RECEPT_UNINSTALL_SUCCESSFULL')."<br />";
         }
+        
+        function update($parent) {
+            echo JText::_('COM_RECEPT_UPDATE_SUCCESSFULL')."<br />";
+        }
     }

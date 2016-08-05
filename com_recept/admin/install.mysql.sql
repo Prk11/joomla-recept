@@ -6,9 +6,17 @@ CREATE TABLE IF NOT EXISTS `#__ingredients_list` (
   PRIMARY KEY (`id`)
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `#__composition` )
+    `id` int(10) NOT NULL AUTO_INCREMENT,
+    `name` varchar(255) NOT NULL DEFAULT 'Состав',
+    `published` SMALLINT(5) NOT NULL DEFAULT 1,
+    PRIMARY KEY (`id`)
+} ENGINE=InnoDB DEFAULT CHARSER=utf8;
+
 CREATE TABLE IF NOT EXISTS `#__ingredients_article` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `article_id` int(10) NOT NULL,
+  `composition_id` int(10) NOT NULL DEFAULT 1,
   `ingredient_id` int(10) NOT NULL,
   `ingredient_count` DECIMAL(6,3) NOT NULL,  
   `published` SMALLINT(5) NOT NULL DEFAULT 1,
@@ -19,7 +27,8 @@ CREATE TABLE IF NOT EXISTS `#__ingredients_article` (
 
 CREATE TABLE IF NOT EXISTS `#__ingredients_basket` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) NOT NULL,
+  `user_id` int(10),
+  `user_session` VARCHAR(40), 
   `article_id` int(10) NOT NULL,
   `count` DECIMAL(3,1) NOT NULL DEFAULT 1,
   `datestart` DATETIME DEFAULT now(),
@@ -49,3 +58,4 @@ ALTER TABLE `#__ingredients_article`
 --     REFERENCES `#__users` (`id`)
 --     ON DELETE CASCADE;
 
+INSERT INTO `#__composition` (`id`) VALUES (1);
