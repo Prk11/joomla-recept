@@ -39,6 +39,17 @@ class plgK2Receptbutton extends K2Plugin {
         }
         $txt = "";
         $visible_ingredients = $this->params->get('visible_ingredients', 1);
+        $srcs = null;
+        $resmatch=preg_match('/src=\\"([^"]+)\\"/is', $item->introtext, $srcs);
+        if ($resmatch && isset($srcs) && count($srcs)>=2) {
+            JFactory::getDocument()->setMetaData("og:image",$srcs[1],"property");            
+        } else {
+            $srcs = null;
+            $resmatch=preg_match('/src=\\"([^"]+)\\"/is', $item->fulltext, $srcs);
+            if ($resmatch && isset($srcs) && count($srcs)>=2) {
+                JFactory::getDocument()->setMetaData("og:image",$srcs[1],"property");            
+            }
+        }
         if ($visible_ingredients) {
             $label_ingredients_css = $this->params->get('label_ingredients_css');
             JFactory::getDocument()->addStyleDeclaration($label_ingredients_css);
@@ -66,7 +77,7 @@ class plgK2Receptbutton extends K2Plugin {
                 if ((float) $row[1] == 0.0) {
                     $txt.="<li style=\"$list_style_ingredients_li\">".$row[0] . $list_ingredients_li_separator. "</li>";
                 } else {
-                    $txt.="<li style=\"$list_style_ingredients_li\">".$row[0] . ": " . (float) $row[1] . " " . $row[2] . $list_ingredients_li_separator. "</li>";
+                    $txt.="<li class=\"ingredient\" style=\"$list_style_ingredients_li\"><span class=\"name\">".$row[0] . "</span>: <span class=\"value\">" . (float) $row[1] . "</span> <span class=\"type\">" . $row[2] ."</span>". $list_ingredients_li_separator. "</li>";
                 }
             }
             $txt.="</ul></div>";
