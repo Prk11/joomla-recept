@@ -65,6 +65,12 @@
                        description="PLG_RECEPTBUTTON_FIELD_LABEL_STYLE_INGREDIENTS_DESC"
                        label="PLG_RECEPTBUTTON_FIELD_LABEL_STYLE_INGREDIENTS_LABEL">
                 </field>
+                <field name="list_icon_class_ingredients"
+                       type="text"
+                       default="fa fa-stack-overflow"
+                       description="PLG_RECEPTBUTTON_FIELD_LABEL_ICON_STYLE_INGREDIENTS_DESC"
+                       label="PLG_RECEPTBUTTON_FIELD_LABEL_ICON_STYLE_INGREDIENTS_LABEL">
+                </field>
                 <field name="list_style_ingredients"
                        type="text"
                        default="display: inline;"

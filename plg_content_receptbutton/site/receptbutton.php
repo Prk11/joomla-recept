@@ -57,8 +57,9 @@ class plgK2Receptbutton extends K2Plugin {
             $label_ingredients = $this->params->get('label_ingredients');
             $label_style_ingredients = $this->params->get('label_style_ingredients');
             $list_style_ingredients = $this->params->get('list_style_ingredients');
+            $list_icon_class_ingredients = $this->params->get('list_icon_class_ingredients','fa fa-stack-overflow');
             $list_style_ingredients_li = $this->params->get('list_style_ingredients_li');
-            $txt.="<div class=\"recept\" style='$label_ingredients_div'><span style='$label_style_ingredients'>$label_ingredients</span> ";
+            $txt.="<div class=\"recept\" style='$label_ingredients_div'><i class='$list_icon_class_ingredients'> </i><span style='$label_style_ingredients'>$label_ingredients</span> ";
             $sql.="select l.`name`, a.`ingredient_count`, l.`unit` ";
             $sql.="from `#__ingredients_article` as a inner join `#__ingredients_list` as l ";
             $sql.="on (a.`ingredient_id`=l.`id`) where (a.`published`='1') and ";
@@ -77,7 +78,7 @@ class plgK2Receptbutton extends K2Plugin {
                 if ((float) $row[1] == 0.0) {
                     $txt.="<li style=\"$list_style_ingredients_li\">".$row[0] . $list_ingredients_li_separator. "</li>";
                 } else {
-                    $txt.="<li class=\"ingredient\" style=\"$list_style_ingredients_li\"><span class=\"name\">".$row[0] . "</span>: <span class=\"value\">" . (float) $row[1] . "</span> <span class=\"type\">" . $row[2] ."</span>". $list_ingredients_li_separator. "</li>";
+                    $txt.="<li itemprop=\"ingredients\" class=\"ingredient\" style=\"$list_style_ingredients_li\"><span class=\"name\">".$row[0] . "</span>: <span class=\"value\">" . (float) $row[1] . "</span> <span class=\"type\">" . $row[2] ."</span>". $list_ingredients_li_separator. "</li>";
                 }
             }
             $txt.="</ul></div>";
