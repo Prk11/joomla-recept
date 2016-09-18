@@ -1,5 +1,5 @@
 <?php
-defined('_JEXEC') or die('Restricted access4');
+defined('_JEXEC') or die('Restricted access');
  
 /**
  * HTML View class for the HelloWorld Component

@@ -40,14 +40,17 @@ class plgK2Receptbutton extends K2Plugin {
         $txt = "";
         $visible_ingredients = $this->params->get('visible_ingredients', 1);
         $srcs = null;
-        $resmatch=preg_match('/src=\\"([^"]+)\\"/is', $item->introtext, $srcs);
-        if ($resmatch && isset($srcs) && count($srcs)>=2) {
-            JFactory::getDocument()->setMetaData("og:image",$srcs[1],"property");            
+        $resmatch = preg_match('/src=\\"([^"]+)\\"/is', $item->introtext, $srcs);
+        if ($resmatch && isset($srcs) && count($srcs) >= 2) {
+            JFactory::getDocument()->setMetaData("og:image", $srcs[1], "property");
         } else {
             $srcs = null;
-            $resmatch=preg_match('/src=\\"([^"]+)\\"/is', $item->fulltext, $srcs);
-            if ($resmatch && isset($srcs) && count($srcs)>=2) {
-                JFactory::getDocument()->setMetaData("og:image",$srcs[1],"property");            
+            $resmatch = preg_match('/src=\\"([^"]+)\\"/is', $item->fulltext, $srcs);
+            if ($resmatch && isset($srcs) && count($srcs) >= 2) {
+                JFactory::getDocument()->setMetaData("og:image", $srcs[1], "property");
+            } else {
+                $og_image = $this->params->get('og_image', 'images/CB686x686.png');
+                JFactory::getDocument()->setMetaData("og:image", JUri::base() . JUri::getInstance($og_image), "property");
             }
         }
         if ($visible_ingredients) {
@@ -57,28 +60,42 @@ class plgK2Receptbutton extends K2Plugin {
             $label_ingredients = $this->params->get('label_ingredients');
             $label_style_ingredients = $this->params->get('label_style_ingredients');
             $list_style_ingredients = $this->params->get('list_style_ingredients');
-            $list_icon_class_ingredients = $this->params->get('list_icon_class_ingredients','fa fa-stack-overflow');
+            $list_icon_class_ingredients = $this->params->get('list_icon_class_ingredients', 'fa fa-stack-overflow');
             $list_style_ingredients_li = $this->params->get('list_style_ingredients_li');
-            $txt.="<div class=\"recept\" style='$label_ingredients_div'><i class='$list_icon_class_ingredients'> </i><span style='$label_style_ingredients'>$label_ingredients</span> ";
-            $sql.="select l.`name`, a.`ingredient_count`, l.`unit` ";
+            $txt.="<div class=\"recept\" style='$label_ingredients_div'> ";
+            $sql.="select l.`name`, a.`ingredient_count`, l.`unit`, c.`name` ";
             $sql.="from `#__ingredients_article` as a inner join `#__ingredients_list` as l ";
-            $sql.="on (a.`ingredient_id`=l.`id`) where (a.`published`='1') and ";
-            $sql.="(a.`article_id`=" . $item->id . ")";
+            $sql.="on (a.`ingredient_id`=l.`id`) left join `#__ingredients_composition` as c on (c.`id`=a.`composition_id`) ";
+            $sql.="where (a.`published`='1') and (a.`article_id`=" . $item->id . ") order by c.`name`, a.`id` ";
             $query = JFactory::getDbo();
             $query = &$query;
             $query->setQuery($sql);
             $rows = $query->loadRowList();
             $list_ingredients_li_separator = $this->params->get('list_ingredients_li_separator');
-            $txt.="<ul style='$list_style_ingredients'>";
             $cnt = count($rows);
-            foreach ($rows as $i=>$row) {
-                if ($cnt-1==$i) {
-                    $list_ingredients_li_separator="";
+            $sostav = "-1";
+            foreach ($rows as $i => $row) {
+                if ($sostav != $row[3]) {
+                    if ($sostav != "-1") {
+                        $txt.="</ul>";
+                    }
+                    if ($i != 0) {
+                        $txt.="<br />";
+                    }
+                    $txtsostav = (($row[3] == null) || ($row[3] == "")) ? $label_ingredients : $row[3];
+                    $txt.="<i class='$list_icon_class_ingredients'> </i><span style='$label_style_ingredients'>" . $txtsostav . ": </span>";
+                    $txt.="<ul style='$list_style_ingredients'>";
+                    $sostav = $row[3];
+                }
+                if (($cnt - 1 == $i) || ($row[3] != $rows[$i + 1][3])) {
+                    $list_ingredients_li_separator1 = "";
+                } else {
+                    $list_ingredients_li_separator1 = $list_ingredients_li_separator;
                 }
                 if ((float) $row[1] == 0.0) {
-                    $txt.="<li style=\"$list_style_ingredients_li\">".$row[0] . $list_ingredients_li_separator. "</li>";
+                    $txt.="<li class=\"ingredient\" style=\"$list_style_ingredients_li\">" . $row[0] . $list_ingredients_li_separator1 . "</li>";
                 } else {
-                    $txt.="<li itemprop=\"ingredients\" class=\"ingredient\" style=\"$list_style_ingredients_li\"><span class=\"name\">".$row[0] . "</span>: <span class=\"value\">" . (float) $row[1] . "</span> <span class=\"type\">" . $row[2] ."</span>". $list_ingredients_li_separator. "</li>";
+                    $txt.="<li class=\"ingredient\" style=\"$list_style_ingredients_li\"><span class=\"name\">" . $row[0] . "</span>: <span class=\"value\">" . (float) $row[1] . "</span> <span class=\"type\">" . $row[2] . "</span>" . $list_ingredients_li_separator1 . "</li>";
                 }
             }
             $txt.="</ul></div>";
@@ -92,7 +109,8 @@ class plgK2Receptbutton extends K2Plugin {
             return;
         }
         $user = JFactory::getUser();
-        if (!$user->guest) {
+        $accept_unauth_users = $this->params->get('accept_unauth_users', 0);
+        if ($accept_unauth_users || !$user->guest) {
             $uri = JFactory::getURI()->toString() . "#btngroup" . $item->id;
             $txt = '<div class="btn-group itemAuthorContent">';
             $txt.='<a class="btn btn-success button" href="' . JRoute::_("index.php?option=com_recept&task=add&id=" . (int) $item->id . "&return=" . base64_encode($uri)) . '"><span class="icon-plus"></span>' . JText::_('PLG_RECEPTBUTTON_PLUGIN_BASKET_ADD') . '</a>';
@@ -128,7 +146,7 @@ class plgK2Receptbutton extends K2Plugin {
         $form = JForm::getInstance('plg_k2_' . $this->pluginName . '_' . $path, $manifest, array(), true, 'fields[@group="' . $path . '"]');
         $values = array();
         if (!is_null($item->id)) {
-            $sql.="select a.`ingredient_id`, a.`ingredient_count` ";
+            $sql.="select a.`ingredient_id`, a.`ingredient_count`, a.`composition_id` ";
             $sql.="from `#__ingredients_article` as a where (a.`published`='1') and ";
             $sql.="(a.`article_id`=" . $item->id . ")";
             $query = JFactory::getDbo();
@@ -137,12 +155,14 @@ class plgK2Receptbutton extends K2Plugin {
             $rows = $query->loadRowList();
             $unit = " ";
             $count = " ";
+            $composition = " ";
             $values = [];
             foreach ($rows as $row) {
                 $unit.="\"" . $row[0] . "\",";
                 $count.="\"" . $row[1] . "\",";
+                $composition.="\"" . $row[2] . "\",";
             }
-            $values["receptbutton"] = "{\"unit\":[" . substr($unit, 0, -1) . "], \"count\":[" . substr($count, 0, -1) . "]}";
+            $values["receptbutton"] = "{\"unit\":[" . substr($unit, 0, -1) . "], \"count\":[" . substr($count, 0, -1) . "], \"composition\":[" . substr($composition, 0, -1) . "]}";
             $form->bind($values);
         }
         $fields = $form->getField("receptbutton")->label . ' ' . $form->getField("receptbutton")->input;
@@ -163,6 +183,7 @@ class plgK2Receptbutton extends K2Plugin {
         $query->execute();
         $unit = [];
         $count = [];
+        $composition = [];
         foreach (json_decode($receptbutton) as $key => $value) {
             switch ($key) {
                 case "unit":
@@ -171,10 +192,13 @@ class plgK2Receptbutton extends K2Plugin {
                 case "count":
                     $count = $value;
                     break;
+                case "composition":
+                    $composition = $value;
+                    break;
             }
         }
         foreach ($unit as $index => $item) {
-            $sql = "insert into #__ingredients_article (`article_id`, `ingredient_id`, `ingredient_count`) values ({intval(" . $row->id . ")},{intval(" . $item . ")}," . $count[$index] . ")";
+            $sql = "insert into #__ingredients_article (`article_id`, `ingredient_id`, `ingredient_count`, `composition_id`) values ({intval(" . $row->id . ")},{intval(" . $item . ")}," . $count[$index] . "," . $composition[$index] . ")";
             $query->setQuery($sql);
             $query->execute();
         }

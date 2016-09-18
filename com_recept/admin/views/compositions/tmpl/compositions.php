@@ -10,7 +10,7 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 <h1><?php echo $this->msg; ?></h1>
-<form action="<?php echo JRoute::_('index.php?option=com_recept&layout=ingredients&view=ingredients'); ?>" method="post" name="adminForm" id="adminForm" class="form-validate form-horizontal" enctype="multipart/form-data">
+<form action="<?php echo JRoute::_('index.php?option=com_recept&layout=compositions&view=compositions'); ?>" method="post" name="adminForm" id="adminForm" class="form-validate form-horizontal" enctype="multipart/form-data">
     <div id="j-sidebar-container" class="span2">
         <?php echo $this->sidebar; ?>
     </div>
@@ -43,7 +43,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	</fieldset>
 
     
-    <table class="adminlist table table-striped" id="receptItemsList">
+    <table class="adminlist table table-striped" id="receptCompositionList">
         <thead>
             <tr>
                 <th class="center">#</th>
@@ -51,7 +51,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                     <?php echo JHtml::_('grid.checkall'); ?>
 		</th>
                 <th class="center"><?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'name', $listDirn, $listOrder); ?></th>
-                <th class="center"><?php echo JHtml::_('grid.sort', 'COM_RECEPT_UNIT', 'unit', $listDirn, $listOrder); ?></th>
                 <th class="center"><?php echo JHtml::_('grid.sort', 'JSTATUS', 'published', $listDirn, $listOrder); ?></th>
                 <th class="center"><?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'id', $listDirn, $listOrder); ?></th>
             </tr>
@@ -66,19 +65,18 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
             </tr>
         </tfoot>
         <tbody>
-            <?php foreach ($this->IngredientList as $i=>$ingredient) { ?>
+            <?php foreach ($this->CompositionList as $i=>$composition) { ?>
             <tr>
                 <td class="center"><?=$this->pagination->getRowOffset($i) ?>.</td>
-                <td class="center"><?php echo JHtml::_('grid.id', $this->pagination->getRowOffset($i), $ingredient->id); ?></td>
-                <td class="center"><?=$ingredient->name ?></td>
-                <td class="center"><?=$ingredient->unit ?></td>
+                <td class="center"><?php echo JHtml::_('grid.id', $this->pagination->getRowOffset($i), $composition->id); ?></td>
+                <td class="center"><?=$composition->name ?></td>
                 <td class="center">
                     <div class="btn-group">
-                        <?php echo JHtml::_('jgrid.published', $ingredient->published, $this->pagination->getRowOffset($i), $ingredient->id, true); ?>                            
+                        <?php echo JHtml::_('jgrid.published', $composition->published, $this->pagination->getRowOffset($i), $composition->id, true); ?>                            
                     </div>
 
                 </td>
-                <td class="center"><?=$ingredient->id ?></td>
+                <td class="center"><?=$composition->id ?></td>
             </tr>
             <?php } ?>
         </tbody>

@@ -1,5 +1,5 @@
 <?php
-defined('_JEXEC') or die('Restricted access2');
+defined('_JEXEC') or die('Restricted access');
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -27,13 +27,5 @@ class ReceptModelIngredient extends JModelAdmin {
         }
         return $form;
     }
-//
-//    protected function loadFormData() {        
-//		// Check the session for previously entered form data.
-//		$data = array_merge((array) $this->getItem(), (array) JFactory::getApplication()->getUserState('com_recept.ingredient.ingredient.data', array()));
-//		$this->preprocessData('com_menus.item', $data);
-//
-//		return $data;
-//    }
 
 }

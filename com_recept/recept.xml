@@ -2,28 +2,28 @@
 <extension type="component" version="3.0" method="upgrade">
 	<name>com_recept</name>
 	<author>Prk</author>
-	<creationDate>January 2016</creationDate>
+	<creationDate>18.09.2016</creationDate>
 	<copyright>(C) 2015 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>prodan.konstantin@gmail.com</authorEmail>
 	<authorUrl>www.psrv.od.ua</authorUrl>
-	<version>1.1.0</version>
+	<version>1.2.2</version>
 	<description>COM_RECEPT_XML_DESCRIPTION</description>
         
         <install>
             <sql>
-                <file driver="mysql" charset="utf8">install.mysql.sql</file>
+                <file driver="mysql" charset="utf8">sql/install.mysql.sql</file>
             </sql>
         </install>
 	<uninstall>
             <sql>
-                <file driver="mysql" charset="utf8">uninstall.mysql.sql</file>
+                <file driver="mysql" charset="utf8">sql/uninstall.mysql.sql</file>
             </sql>
 	</uninstall>   
         <update>
-            <sql>
-                <file driver="mysql" charset="utf8">update.mysql.sql</file>
-            </sql>
+            <schemas>
+                <schemapath type="mysql">sql/updates</schemapath>
+            </schemas>
 	</update>     
         
         <scriptfile>install.php</scriptfile>
@@ -48,13 +48,12 @@
                 <filename>index.html</filename>
                 <filename>recept.php</filename>
                 <filename>controller.php</filename>
-                <filename>install.mysql.sql</filename>
-                <filename>uninstall.mysql.sql</filename>
                 <folder>controllers</folder>
                 <folder>language</folder>
                 <folder>models</folder>
                 <folder>views</folder>
                 <folder>tables</folder>
+                <folder>sql</folder>
             </files>
             <languages folder="admin">
                     <language tag="ru-RU">language/ru-RU/ru-RU.com_recept.ini</language>

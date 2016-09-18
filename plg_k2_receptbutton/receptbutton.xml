@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="2.5" type="plugin" group="k2" method="upgrade">
+<extension version="3.0" type="plugin" group="k2" method="upgrade">
     <name>PLG_RECEPTBUTTON_XML_DESCRIPTION</name>
-    <version>1.0.0</version>
-    <creationDate>Jan 2016</creationDate>
+    <version>1.2.2</version>
+    <creationDate>18.09.2016</creationDate>
     <author>Prk</author>
     <authorEmail>prodan.konstantin@gmail.com</authorEmail>
     <authorUrl>www.joomla.org</authorUrl>
@@ -40,6 +40,12 @@
                        label="PLG_RECEPTBUTTON_FIELD_VISIBLE_INGREDIENTS_LABEL">
                     <option value="1">JYES</option>
                     <option value="0">JNO</option>
+                </field>
+                <field name="og_image"
+                       type="text"
+                       default="images/CB686x686.png"
+                       description="PLG_RECEPTBUTTON_OG_IMAGE_DESC"
+                       label="PLG_RECEPTBUTTON_OG_IMAGE_LABEL">
                 </field>
                 <field name="label_ingredients_div"
                        type="text"
@@ -99,7 +105,15 @@
                        multiple="true"
                 >
                 </field>
-                
+                <field name="accept_unauth_users"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="0"
+                    description="PLG_RECEPTBUTTON_FIELD_ACCEPT_UNAUTH_USER_DESC"
+                    label="PLG_RECEPTBUTTON_FIELD_ACCEPT_UNAUTH_USER_LABEL">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
             </fieldset>
         </fields>
     </config>
@@ -125,6 +139,13 @@
                            min="0"
                            step="0.1"
                            type="Number" 
+                    />
+                    <field name="composition"
+                           label="PLG_RECEPTBUTTON_COMPOSITION_INGREDIENT_LABEL"
+                           type="sql"
+                           query="SELECT id as value, name as title FROM #__ingredients_composition where `published`=1 order by title" 
+                           key_field="value" 
+                           value_field="title"
                     />
                 </fieldset>
             </field>

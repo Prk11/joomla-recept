@@ -1,0 +1,1 @@
+RENAME TABLE `#__composition` TO `#__ingredients_composition`;

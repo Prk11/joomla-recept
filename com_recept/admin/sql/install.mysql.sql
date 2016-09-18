@@ -6,17 +6,17 @@ CREATE TABLE IF NOT EXISTS `#__ingredients_list` (
   PRIMARY KEY (`id`)
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `#__composition` )
+CREATE TABLE IF NOT EXISTS `#__ingredients_composition` (
     `id` int(10) NOT NULL AUTO_INCREMENT,
     `name` varchar(255) NOT NULL DEFAULT 'Состав',
     `published` SMALLINT(5) NOT NULL DEFAULT 1,
     PRIMARY KEY (`id`)
-} ENGINE=InnoDB DEFAULT CHARSER=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__ingredients_article` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `article_id` int(10) NOT NULL,
-  `composition_id` int(10) NOT NULL DEFAULT 1,
+  `composition_id` int(10),
   `ingredient_id` int(10) NOT NULL,
   `ingredient_count` DECIMAL(6,3) NOT NULL,  
   `published` SMALLINT(5) NOT NULL DEFAULT 1,
